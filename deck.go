@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	"os"
+	"strings"
 )
 
 // Create a new type of 'deck', which is a slice of strings
@@ -28,7 +28,7 @@ func newDeck() deck {
 // Print our every card in the deck
 func (d deck) print() {
 	for i, card := range d {
-		fmt.Println(i + 1, card)
+		fmt.Println(i+1, card)
 	}
 }
 
@@ -42,4 +42,15 @@ func (d deck) toString() string {
 
 func (d deck) saveToFile(filename string) error {
 	return os.WriteFile(filename, []byte(d.toString()), 0666)
+}
+
+func newDeckFromFile(filename string) deck {
+	bs, err := os.ReadFile(filename)
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(1)
+	}
+
+	s := strings.Split(string(bs), ",")
+	return deck(s)
 }
